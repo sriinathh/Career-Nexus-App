@@ -1,0 +1,191 @@
+📋 VERIFICATION CHECKLIST - Is Everything Working?
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Before Testing Registration/Login, Verify:
+
+STEP 1: MONGODB ✓
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Windows (Check Service):
+   PowerShell: Get-Service MongoDB | Select-Object Status
+   Expected: Status: Running
+   
+   If Stopped:
+   PowerShell: Start-Service MongoDB
+
+OR MongoDB Atlas (Cloud):
+   1. Account created? https://www.mongodb.com/cloud/atlas
+   2. Cluster created? (M0 tier = free)
+   3. Connection string obtained?
+   4. Updated backend/.env with connection string?
+
+CHECKLIST:
+□ MongoDB is running or MongoDB Atlas set up
+□ Connection string is valid
+□ No "connection refused" or "authentication failed" errors
+
+
+STEP 2: BACKEND SERVER ✓
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Terminal 1 Output (must see both):
+   ✅ Connected to MongoDB
+   ✅ Server is running on http://localhost:5000
+
+Test Connection:
+   PowerShell: curl http://localhost:5000/api/health
+   
+   Expected Response:
+   {"status":"Server is running"}
+
+CHECKLIST:
+□ Backend terminal shows "Server is running on http://localhost:5000"
+□ Backend terminal shows "Connected to MongoDB" 
+□ curl test returns status
+□ No error messages in backend console
+
+
+STEP 3: EXPO APP ✓
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Terminal 2 Status:
+   Should show QR code and port 8081 or similar
+   
+   Options available:
+   w - Web version
+   a - Android emulator
+   i - iOS simulator
+   Scan - Expo Go app
+
+Test App Loads:
+   □ Web version loads without errors
+   □ OR Expo Go app shows app interface
+   □ You see Login/Register screen
+
+CHECKLIST:
+□ Expo terminal is running
+□ App loads in browser or Expo Go
+□ You see the CareerNexus login screen
+
+
+STEP 4: TEST REGISTRATION ✓
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+In the App:
+1. Click "Register" tab
+2. Enter:
+   Full Name: Test User
+   Email: test@example.com
+   Password: 123456
+   Confirm: 123456
+3. Click "Create Account" button
+
+Expected Behavior:
+   ✅ "Account created successfully!" alert
+   ✅ Auto-redirect to Dashboard
+   ✅ Dashboard shows user info
+
+If you see these = IT WORKS!
+   □ Alert shows "Account created successfully"
+   □ App navigates to Dashboard
+   □ Dashboard is displayed
+
+Problems?
+   □ "Backend not running" → Backend terminal not open
+   □ "MongoDB connection failed" → MongoDB not running
+   □ "Network request failed" → Firewall or IP issue
+   □ "Email already registered" → Use different email
+
+
+STEP 5: TEST LOGIN ✓
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+In the App:
+1. Click "Sign In" tab
+2. Enter credentials from registration:
+   Email: test@example.com
+   Password: 123456
+3. Click "Sign In" button
+
+Expected Behavior:
+   ✅ "Login successful!" alert
+   ✅ Auto-redirect to Dashboard
+   ✅ You're logged in!
+
+If you see these = LOGIN WORKS!
+   □ Alert shows "Login successful"
+   □ App navigates to Dashboard
+   □ Can interact with Dashboard
+
+
+FINAL VERIFICATION ✓
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Check Backend Console (Terminal 1):
+   You should see logs like:
+   POST /api/auth/register - 201
+   POST /api/auth/login - 200
+   
+   These confirm API calls are successful
+
+Check Backend Didn't Crash:
+   □ Terminal 1 still shows "Server is running"
+   □ No error messages
+   □ Can keep using app
+
+Check Database (Optional):
+   MongoDB Atlas:
+   1. Open Atlas dashboard
+   2. Go to "Collections"
+   3. Should see "users" collection
+   4. Should see your registered user documents
+
+   Local MongoDB (mongosh):
+   > use careernexus
+   > db.users.find()
+   # Should show your registered users
+
+
+SUMMARY CHECKLIST ✓
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+All of these should be checked:
+
+INFRASTRUCTURE:
+   □ MongoDB running (local) OR set up (Atlas)
+   □ Backend running on port 5000
+   □ Backend shows "Connected to MongoDB"
+   □ Expo running and app loads
+
+API:
+   □ curl http://localhost:5000/api/health returns status
+   □ Backend logs show incoming requests
+   □ No network/firewall errors
+
+FUNCTIONALITY:
+   □ Registration works → "Account created" alert
+   □ Redirect to Dashboard works
+   □ Login works → "Login successful" alert
+   □ Dashboard displays
+
+DATA:
+   □ User created in MongoDB
+   □ Passwords are hashed (not plain text)
+   □ JWT token generated and returned
+   □ Token used for authenticated requests
+
+
+IF YOU HAVE ALL ✓ = EVERYTHING IS WORKING! 🎉
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Still Having Issues?
+
+1. Read QUICK_FIX.md (2 minutes)
+2. Check SETUP_GUIDE.md (troubleshooting section)
+3. Verify this checklist again
+4. Check backend console for error messages
+5. Make sure BOTH terminals stay open
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
