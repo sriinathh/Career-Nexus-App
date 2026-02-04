@@ -1,6 +1,6 @@
 # 🚀 CareerNexus App - Complete Documentation
 
-![CareerNexus Banner](./assets/images/icon.png)
+![CareerNexus Banner]()
 
 **CareerNexus** is an innovative AI-powered career guidance and skill development platform built with modern technologies. It provides personalized career recommendations, skill assessments, learning roadmaps, and comprehensive career analytics for users seeking professional growth.
 
